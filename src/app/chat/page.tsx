@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -8,35 +8,56 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Bot, Send, Upload, User } from "lucide-react";
 
 export default function StudentChatbot() {
-  const [messages, setMessages] = React.useState([
+  const [messages, setMessages] = useState([
     {
       role: "bot",
-      content: "Hello! How can I assist you with your studies today?",
+      content:
+        "Hello! I'm your AI study assistant. How can I help you with your studies today?",
     },
   ]);
-  const [input, setInput] = React.useState("");
+  const [input, setInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSend = () => {
+  const predefinedResponses = {
+    math: "Math is a great subject! What specific topic would you like help with?",
+    science:
+      "Science helps us understand the world around us. What do you need assistance with?",
+    history:
+      "History teaches us about the past. What period or event are you studying?",
+    default:
+      "I’m not sure about that. Could you please ask a different question related to your studies?",
+  };
+
+  const handleSend = async () => {
     if (input.trim()) {
-      setMessages([...messages, { role: "user", content: input }]);
-      // Here you would typically send the input to your AI backend and get a response
-      // For this example, we'll just echo the input prefixed with "AI: "
+      setMessages((prev) => [...prev, { role: "user", content: input }]);
+      setIsLoading(true);
+
+      // Hardcoded response based on keywords
+      const lowercaseInput = input.toLowerCase();
+      let aiResponse = predefinedResponses.default;
+
+      if (lowercaseInput.includes("math")) {
+        aiResponse = predefinedResponses.math;
+      } else if (lowercaseInput.includes("science")) {
+        aiResponse = predefinedResponses.science;
+      } else if (lowercaseInput.includes("history")) {
+        aiResponse = predefinedResponses.history;
+      }
+
       setTimeout(() => {
-        setMessages((prev) => [
-          ...prev,
-          { role: "bot", content: `AI: ${input}` },
-        ]);
-      }, 1000);
-      setInput("");
+        setMessages((prev) => [...prev, { role: "bot", content: aiResponse }]);
+        setIsLoading(false);
+        setInput("");
+      }, 1000); // Simulate loading time
     }
   };
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      // Here you would typically handle the file upload to your backend
-      setMessages([
-        ...messages,
+      setMessages((prev) => [
+        ...prev,
         { role: "user", content: `Uploaded file: ${file.name}` },
       ]);
     }
@@ -74,6 +95,14 @@ export default function StudentChatbot() {
                 </div>
               </div>
             ))}
+            {isLoading && (
+              <div className="flex justify-start mb-4">
+                <div className="bg-secondary text-secondary-foreground p-3 rounded-lg">
+                  <Bot className="w-4 h-4 inline-block mr-2" />
+                  Thinking...
+                </div>
+              </div>
+            )}
           </ScrollArea>
           <div className="p-4 border-t">
             <div className="flex gap-2 mb-2">
@@ -105,6 +134,7 @@ export default function StudentChatbot() {
                   size="icon"
                   variant="ghost"
                   className="rounded-full"
+                  disabled={isLoading}
                 >
                   <Send className="w-5 h-5 text-gray-600" />
                 </Button>
