@@ -105,10 +105,10 @@ export default function Component() {
         <div className="flex justify-between items-center mb-8">
           <div>
             <h1 className="text-4xl font-bold text-gray-800">
-              Smart Classroom Analytics
+              LearnWise
             </h1>
             <p className="text-xl text-gray-600 mt-2">
-              Welcome back, Prof. Sarah Johnson!
+              Welcome back, Professor!
             </p>
           </div>
           <div className="flex items-center space-x-4">
@@ -140,7 +140,7 @@ export default function Component() {
                 alt="Sarah Johnson"
               />
               <AvatarFallback className="border-2 border-primary text-primary">
-                SJ
+                PM
               </AvatarFallback>
             </Avatar>
           </div>
@@ -535,7 +535,7 @@ export default function Component() {
           <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
             <div className="space-y-4">
               <h3 className="text-xl font-semibold mb-4">
-                Smart Classroom Analytics
+                LearnWise
               </h3>
               <p className="text-sm text-gray-400">
                 Empowering educators with data-driven insights for better
@@ -724,7 +724,7 @@ export default function Component() {
           </div>
           <div className="mt-8 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center">
             <p className="text-sm text-gray-400">
-              &copy; 2023 Smart Classroom Analytics. All rights reserved.
+              &copy; 2024 LearnWise. All rights reserved.
             </p>
             <div className="flex space-x-4 mt-4 md:mt-0">
               <a
